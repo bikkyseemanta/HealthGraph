@@ -1,0 +1,3 @@
+browserkey = webdriver.chrome.driver
+browservalue = C:\\Users\\lenovo\\eclipse-workspace\\HealthGraph\\src\\main\\resources\\chromedriver.exe
+url = https://ehr.healthgraph.in
