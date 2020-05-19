@@ -49,13 +49,6 @@ public class Add_Patient extends Common_Methods
 
 	}
 
-	/*@Then("^close the browser$")
-	public void close_the_browser() throws Throwable 
-	{
-	   //driver.close();
-	   driver.quit();
-	}*/
-
 	@Then("^click on add pluse button$")
 	public void click_on_add_pluse_button() throws Throwable 
 	{
@@ -84,14 +77,15 @@ public class Add_Patient extends Common_Methods
 	public void click_on_add_new_patient_button() throws Throwable 
 	{
 		driver.findElement(By.xpath("//*[text()='Add New Patient']")).click();
+		normalWait(5000);
 	}
 	
 	@When("^user fill mandatory fields \"([^\"]*)\" \"([^\"]*)\"$")
 	public void user_fill_mandatory_fields(String firstname, String mobno) throws Throwable 
 	{
   
-	   driver.findElement(By.name("patient[firstname]")).sendKeys(firstname);
-	   driver.findElement(By.name("patient[mobilenumber]")).sendKeys(mobno);
+	   driver.findElement(By.xpath("//*[@placeholder='First Name']")).sendKeys(firstname);
+	   driver.findElement(By.xpath("//input[@name='patient[mobilenumber]']")).sendKeys(mobno);
 	   
 	}
 
@@ -99,24 +93,41 @@ public class Add_Patient extends Common_Methods
 	public void user_can_create_appointment() throws Throwable 
 	{
 	    driver.findElement(By.xpath("//input[@value='Create Appointment']")).click();
+	    normalWait(7000);
 	}
 
 	@Then("^open the created appointment in edit mode$")
 	public void open_the_created_appointment_in_edit_mode() throws Throwable 
 	{
-	    
+	    driver.findElement(By.xpath("(//i[@class='fa fa-edit'])[1]")).click();
+	    expwait("//*[text()='Edit Patient Form']");
 	}
 
 	@Then("^remove the mandatory fields and click on create appointment button$")
 	public void remove_the_mandatory_fields_and_click_on_create_appointment_button() throws Throwable
 	{
-	    
+		driver.findElement(By.xpath("//*[@placeholder='First Name']")).clear();
+	    driver.findElement(By.xpath("//input[@name='patient[mobilenumber]']")).clear();
+	    normalWait(3000);
+	    driver.findElement(By.xpath("(//*[@value='Save'])[2]")).click();
+	    normalWait(5000);
+		   
 	}
 
 	@Then("^validate warning message should display$")
 	public void validate_warning_message_should_display() throws Throwable 
 	{
+	   String warnmsgclor=driver.findElement(By.xpath("//*[text()='First Name']")).getCssValue("color");
+	   System.out.println(warnmsgclor);
 	   
+	   if(warnmsgclor.contains("rgba(51, 51, 51, 1)"))
+	   {
+		   Reporter.addStepLog("The warning mesage is highlighting in RED color if user not filling the mandatory fields-->SUCCESS");
+	   }
+	   else
+	   {
+		   Reporter.addStepLog("The warning mesage is highlighting in RED color if user not filling the mandatory fields-->DEFECT");
+	   }
 	}
 
 	@Then("^fill patient details  \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\"$")
@@ -124,6 +135,11 @@ public class Add_Patient extends Common_Methods
 			String email, String language, String secondarylanguage, String pincode, String Add1, String Add2, String MedicalRepoNo, String Aadhaar, String PANno,
 			String DLno, String patientref, String location, String SpeialistAvialable, String Doctor, String AppointmentType, String AppointmentCat) throws Throwable
 	{
+		
+		driver.findElement(By.xpath("//*[@placeholder='First Name']")).sendKeys(firstname1);
+		driver.findElement(By.xpath("//input[@name='patient[mobilenumber]']")).sendKeys(mobno1);
+		driver.findElement(By.xpath("//*[@placeholder='Middle Name']")).sendKeys(middlename);
+		
 	   
 	}
 
